@@ -15,7 +15,7 @@ const EditAuthor = (props) => {
                 setAuthorName(response.data.name);
             })
             .catch((err) => {
-                console.log("Error object:", err); // Add this line to log the entire error object
+                console.log("Error object:", err);
                 console.log(err.response.data.errors);
                 setErrors(err.response.data.errors);
             });
@@ -31,10 +31,14 @@ const EditAuthor = (props) => {
                 navigate('/');
             })
             .catch((err) => {
-                console.log("Error object:", err); // Add this line to log the entire error object
+                console.log("Error object:", err);
                 console.log(err.response.data.errors);
                 setErrors(err.response.data.errors);
             });
+    };
+
+    const onCancelHandler = () => {
+        navigate('/');
     };
 
     return (
@@ -46,11 +50,9 @@ const EditAuthor = (props) => {
                 id="name"
                 onChange={(e) => setAuthorName(e.target.value)}
             />
-
             <button type="submit">Submit</button>
+            <button type="button" onClick={onCancelHandler}>Cancel</button>
             {errors && errors.name && <p className="error-message">{errors.name.message}</p>}
-
-
         </form>
     );
 };

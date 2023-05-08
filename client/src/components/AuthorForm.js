@@ -16,9 +16,13 @@ const AuthorForm = () => {
                 navigate('/');
             })
             .catch((err) => {
-                console.log(err.response); // Add this line
+                console.log(err.response);
                 setErrors(err.response.data.errors);
             });
+    };
+
+    const onCancelHandler = () => {
+        navigate('/');
     };
 
     return (
@@ -28,13 +32,14 @@ const AuthorForm = () => {
                 <label htmlFor="name">Name</label>
                 <input
                     type="text"
-                    id="name" // Add the id attribute
+                    id="name"
                     onChange={(e) => setName(e.target.value)}
                     value={name}
                 />
                 <br />
                 {errors.name && <p className="error-message">{errors.name.message}</p>}
                 <button type="submit">Submit</button>
+                <button type="button" onClick={onCancelHandler}>Cancel</button>
             </form>
         </div>
     );

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import axios from "axios"
 import { Link } from "react-router-dom";
 
-
 const DisplayAll = () => {
     const [allAuthors, setAllAuthors] = useState([])
 
@@ -12,7 +11,15 @@ const DisplayAll = () => {
             .catch((err) => console.log(err.response))
     }, [])
 
-
+    const deleteAuthor = (id) => {
+        axios.delete("http://localhost:8000/author/" + id)
+            .then((response) => {
+                setAllAuthors(allAuthors.filter(author => author._id !== id));
+            })
+            .catch((err) => {
+                console.log(err.response);
+            });
+    };
 
     return (
         <div>
@@ -20,7 +27,7 @@ const DisplayAll = () => {
 
             <table>
                 <thead>
-                    <tr >
+                    <tr>
                         <th>Author</th>
                         <th>Actions Available</th>
                     </tr>
@@ -32,18 +39,14 @@ const DisplayAll = () => {
                                 <td>{author.name}</td>
                                 <td>
                                     <Link to={"/edit/" + author._id}><button>Edit</button></Link>
-                                    <button>Delete</button>
+                                    <button onClick={() => deleteAuthor(author._id)}>Delete</button>
                                 </td>
                             </tr>
                         )
                     })}
-
-
                 </tbody>
             </table>
         </div>
-
-
     )
 };
 
