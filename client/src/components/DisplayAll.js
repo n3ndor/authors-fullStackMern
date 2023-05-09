@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import axios from "axios"
+import axios from "axios";
 import { Link } from "react-router-dom";
+import { Table, Container, Button } from 'react-bootstrap';
 
 const DisplayAll = () => {
-    const [allAuthors, setAllAuthors] = useState([])
+    const [allAuthors, setAllAuthors] = useState([]);
 
     useEffect(() => {
         axios.get("http://localhost:8000/author")
             .then(response => setAllAuthors(response.data))
             .catch((err) => console.log(err.response))
-    }, [])
+    }, []);
 
     const deleteAuthor = (id) => {
         axios.delete("http://localhost:8000/author/" + id)
@@ -22,10 +23,10 @@ const DisplayAll = () => {
     };
 
     return (
-        <div>
-            <Link to={"/new"}>Add New Author</Link>
+        <Container>
+            <Link to={"/new"} className="btn btn-primary my-3">Add New Author</Link>
 
-            <table>
+            <Table striped bordered hover responsive>
                 <thead>
                     <tr>
                         <th>Author</th>
@@ -38,15 +39,15 @@ const DisplayAll = () => {
                             <tr key={author._id}>
                                 <td>{author.name}</td>
                                 <td>
-                                    <Link to={"/edit/" + author._id}><button>Edit</button></Link>
-                                    <button onClick={() => deleteAuthor(author._id)}>Delete</button>
+                                    <Link to={"/edit/" + author._id}><Button variant="warning" className="me-2">Edit</Button></Link>
+                                    <Button onClick={() => deleteAuthor(author._id)} variant="danger">Delete</Button>
                                 </td>
                             </tr>
                         )
                     })}
                 </tbody>
-            </table>
-        </div>
+            </Table>
+        </Container>
     )
 };
 

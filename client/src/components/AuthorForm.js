@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import {
+    Container,
+    Form,
+    Button,
+    Row,
+    Col,
+    Card,
+    Alert
+} from 'react-bootstrap';
 
 const AuthorForm = () => {
     const [name, setName] = useState('');
@@ -21,27 +30,43 @@ const AuthorForm = () => {
             });
     };
 
-    const onCancelHandler = () => {
-        navigate('/');
-    };
-
     return (
-        <div>
-            <Link to={'/'}>Home</Link>
-            <form onSubmit={onSubmitHandler}>
-                <label htmlFor="name">Name</label>
-                <input
-                    type="text"
-                    id="name"
-                    onChange={(e) => setName(e.target.value)}
-                    value={name}
-                />
-                <br />
-                {errors.name && <p className="error-message">{errors.name.message}</p>}
-                <button type="submit">Submit</button>
-                <button type="button" onClick={onCancelHandler}>Cancel</button>
-            </form>
-        </div>
+        <Container className="mt-5">
+            <Row className="justify-content-center">
+                <Col xs={12} md={8} lg={6}>
+                    <Card className="p-4">
+                        <Card.Title className="text-center">Add New Author</Card.Title>
+                        <Link to={'/'}>Home</Link>
+                        <Form onSubmit={onSubmitHandler}>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Name</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    isInvalid={!!errors.name}
+                                />
+                                {errors.name && (
+                                    <Alert variant="danger" className="mt-2">{errors.name.message}</Alert>
+                                )}
+                            </Form.Group>
+                            <Row>
+                                <Col>
+                                    <Button type="submit" variant="primary" className="w-100">
+                                        Submit
+                                    </Button>
+                                </Col>
+                                <Col>
+                                    <Button as={Link} to="/" variant="secondary" className="w-100">
+                                        Cancel
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </Form>
+                    </Card>
+                </Col>
+            </Row>
+        </Container>
     );
 };
 
